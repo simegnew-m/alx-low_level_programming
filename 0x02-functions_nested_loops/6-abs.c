@@ -1,26 +1,21 @@
-#include "holberton.h"
+#include "main.h"
 
 /**
- * print_last_digit - Prints the last digit
- * of a number.
+ * _abs - Computes the absolute value
+ * of an integer.
  *
- * @n: input number as an integer.
+ * @i: input number as an integer.
  *
- * Return: last digit.
+ * Return: absolute value
  */
-int print_last_digit(int n)
+int _abs(int i)
 {
-	int l;
-
-	l = n % 10;
-	if (l < 0)
+	if (i >= 0)
 	{
-		_putchar(-l + 48);
-		return (-l);
+		return (i);
 	}
 	else
 	{
-		_putchar(l + 48);
-		return (l);
+		return (i * -1);
 	}
 }
