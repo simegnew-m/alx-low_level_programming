@@ -1,82 +1,45 @@
 #include "lists.h"
-#include <stdlib.h>
 
 /**
- * listint_len - the number of elements in a linked list_t list
+ * insert_nodeint_at_index - Inserts a new node to a listint_t
+ *                           list at a given position.
+ * @head: A pointer to the address of the
+ *        head of the listint_t list.
+ * @idx: The index of the listint_t list where the new
+ *       node should be added - indices start at 0.
+ * @n: The integer for the new node to contain.
  *
- * @h: list to browse
- *
- * Return: size of the list
- */
-size_t listint_len(const listint_t *h)
-{
-	if (h == NULL)
-		return (0);
-	if (h->next == NULL)
-		return (1);
-	else
-		return (listint_len(h->next) + 1);
-}
-
-/**
- * get_nodeint_at_index - the nth node of a listint_t linked list
- *
- * @head: first element
- * @index: element's number
- *
- * Return: a node
- */
-listint_t *get_nodeint_at_index(listint_t *head, unsigned int index)
-{
-	unsigned int cLoop = 0;
-
-	while (head != NULL)
-	{
-		if (index == cLoop)
-			return (head);
-		head = head->next;
-		cLoop++;
-	}
-
-	return (NULL);
-}
-
-/**
- * insert_nodeint_at_index - inserts a new node at a given position
- *
- * @head: first element
- * @idx: element's number
- * @n: number
- *
- * Return: he address of the new node
+ * Return: If the function fails - NULL.
+ *         Otherwise - the address of the new node.
  */
 listint_t *insert_nodeint_at_index(listint_t **head, unsigned int idx, int n)
 {
-	listint_t *new, *before;
-	int length;
+	listint_t *new, *copy = *head;
+	unsigned int node;
 
-	new = createNode(n);
-
-	if (head == NULL || new == NULL)
+	new = malloc(sizeof(listint_t));
+	if (new == NULL)
 		return (NULL);
 
-	length = listint_len(*head);
+	new->n = n;
 
 	if (idx == 0)
 	{
-		new->next = (*head);
+		new->next = copy;
 		*head = new;
 		return (new);
 	}
-	else if (idx > (unsigned int) length)
-	{
-		return (NULL);
-	}
-	else
-		before = get_nodeint_at_index(*head, idx - 1);
 
-	new->next = before->next;
-	before->next = new;
+	for (node = 0; node < (idx - 1); node++)
+	{
+		if (copy == NULL || copy->next == NULL)
+			return (NULL);
+
+		copy = copy->next;
+	}
+
+	new->next = copy->next;
+	copy->next = new;
 
 	return (new);
 }
