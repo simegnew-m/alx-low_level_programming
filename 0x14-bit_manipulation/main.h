@@ -1,5 +1,5 @@
-#ifndef _MAIN_H_
-#define _MAIN_H_
+#ifndef _BIT_MANIP_
+#define _BIT_MANIP_
 
 int _strlen(const char *s);
 int _putchar(char);
