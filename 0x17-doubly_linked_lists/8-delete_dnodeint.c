@@ -1,36 +1,33 @@
-#include "lists.h" 
-/*
- => Deletes a node at index of a dlistint_t linked list and
- => Returns 1 - if it succeed or  -1 - if it failed
-*/
+#include "lists.h"
+#include <stdlib.h>
+
 int delete_dnodeint_at_index(dlistint_t **head, unsigned int index)
 {
-	dlistint_t *tmp = *head;
+	dlistint_t *current;
+	unsigned int i;
 
-	if (*head == NULL)
+	if (head == NULL || *head == NULL)
 		return (-1);
-
-	for (; index != 0; index--)
+	current = *head;
+	if (index == 0)
 	{
-		if (tmp == NULL)
+		*head = current->next;
+		if (current->next != NULL)
+		{
+			current->next->prev = NULL;
+		}
+		free(current);
+		return (1);
+	}
+	for (i = 0; i < index; i++)
+	{
+		if (current->next == NULL)
 			return (-1);
-		tmp = tmp->next;
+		current = current->next;
 	}
-
-	if (tmp == *head)
-	{
-		*head = tmp->next;
-		if (*head != NULL)
-			(*head)->prev = NULL;
-	}
-
-	else
-	{
-		tmp->prev->next = tmp->next;
-		if (tmp->next != NULL)
-			tmp->next->prev = tmp->prev;
-	}
-
-	free(tmp);
+	current->prev->next = current->next;
+	if (current->next != NULL)
+		current->next->prev = current->prev;
+	free(current);
 	return (1);
 }

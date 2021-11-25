@@ -1,34 +1,40 @@
 #include "lists.h"
-/*
- => Inserts a new node at the given position in a dlistint_t and
- => Return the address of the new node or NULL - If the function fails
-*/
+#include <stdlib.h>
+#include <stdio.h>
+
 dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 {
-	dlistint_t *temp = *h, *new;
+	dlistint_t *new, *next, *current;
+	unsigned int i;
 
-	if (idx == 0)
-		return (add_dnodeint(h, n));
-
-	for (; idx != 1; idx--)
+	if (h == NULL)
+		return (NULL);
+	if (idx != 0)
 	{
-		temp = temp->next;
-		if (temp == NULL)
+		current = *h;
+		for (i = 0; i < idx - 1 && current != NULL; i++)
+			current = current->next;
+		if (current == NULL)
 			return (NULL);
 	}
-
-	if (temp->next == NULL)
-		return (add_dnodeint_end(h, n));
-
 	new = malloc(sizeof(dlistint_t));
 	if (new == NULL)
 		return (NULL);
-
 	new->n = n;
-	new->prev = temp;
-	new->next = temp->next;
-	temp->next->prev = new;
-	temp->next = new;
-
+	if (idx == 0)
+	{
+		next = *h;
+		*h = new;
+		new->prev = NULL;
+	}
+	else
+	{
+		new->prev = current;
+		next = current->next;
+		current->next = new;
+	}
+	new->next = next;
+	if (new->next != NULL)
+		new->next->prev = new;
 	return (new);
 }

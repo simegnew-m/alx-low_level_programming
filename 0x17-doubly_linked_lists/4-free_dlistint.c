@@ -1,15 +1,14 @@
 #include "lists.h"
-/*
- => Locates a nth node in a dlistint_t list and
- => Return the address of the located node or NULL - If the node does not exist
-*/
-dlistint_t *get_dnodeint_at_index(dlistint_t *head, unsigned int index)
+#include <stdlib.h>
+
+void free_dlistint(dlistint_t *head)
 {
-	for (; index != 0; index--)
+	dlistint_t *next;
+
+	while (head != NULL)
 	{
-		if (head == NULL)
-			return (NULL);
-		head = head->next;
+		next = head->next;
+		free(head);
+		head = next;
 	}
-	return (head);
 }
